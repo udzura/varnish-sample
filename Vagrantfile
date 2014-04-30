@@ -8,10 +8,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "SL-6.1-x86_64"
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.hostname = "varnish-sample.dev"
   config.vm.synced_folder "./rails-pj", "/var/www/rails-pj"
 
-  # config.vm.provision "puppet" do |puppet|
-  #   puppet.manifests_path = "manifests"
-  #   puppet.manifest_file  = "site.pp"
-  # end
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = "manifests"
+    puppet.module_path = "site-modules"
+    puppet.manifest_file = "site.pp"
+
+    if ENV["DEBUG"]
+      puppet.options = "--verbose --debug --show_diff"
+    else
+      puppet.options = "--show_diff"
+    end
+  end
 end

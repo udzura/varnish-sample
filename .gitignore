@@ -1,0 +1,9 @@
+# Created by http://www.gitignore.io
+
+### puppet-librarian ###
+# puppet-librarian - https://github.com/rodjek/librarian-puppet
+.tmp/
+modules/
+
+### Vagrant ###
+.vagrant/
